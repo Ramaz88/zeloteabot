@@ -93,6 +93,7 @@
         <input type="text" placeholder="Ім'я" id="user_name">
         <input type="text" placeholder="Електронна адреса" id="user_email">
         <input type="text" placeholder="Телефон" id="user_phone">
+        <div id="error"></div>
         <button id="order">Оформити замовлення</button>
     </form>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -109,6 +110,30 @@
         })
 
         order.addEventListener("click", () => {
+            document.getElementId("error").innerText = '';
+            let name = document.getElementById("user_name").value;
+            let email = document.getElementById("user_email").value;
+            let phone = document.getElementById("user_phone").value;
+            if(name.lengh < 5) {
+                document.getElementById("error").innerText = 'Помилка в імені';
+                return;
+            }
+            if(email.lengh < 5) {
+                document.getElementById("error").innerText = 'Помилка в пошті';
+                return;
+            }
+            if(phone.lengh < 5) {
+                document.getElementById("error").innerText = 'Помилка в телефоні';
+                return;
+            }
+
+            let data = {
+                name: name,
+                email: email,
+                phone: phone
+            }
+            tg.sendData(JSON.stringfy(data));
+            
             tg.close()
         })
     </script>
